@@ -1,0 +1,4 @@
+(executable
+ (public_name flux)
+ (name main)
+ (libraries flux base))
