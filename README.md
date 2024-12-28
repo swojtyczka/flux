@@ -4,7 +4,7 @@
 
 - more error handling (add strong types and try-catches)
 - delta -> show changes between commit and its parent
-- clean working directory when checking out
+- ~~clean working directory when checking out~~
 - branch delete
 - git reset
 

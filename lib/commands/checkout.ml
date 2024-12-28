@@ -8,7 +8,7 @@ let checkout (what : string) : unit =
       what
   in
 
-  let old_files = Internals.Index.read () |> Internals.Index.extract_paths_and_hashes |> List.map fst in
+  (* let old_files = Internals.Index.read () |> Internals.Index.extract_paths_and_hashes |> List.map fst in *)
   let new_index = Internals.Commit.get_commit_files hash in
   let new_files = new_index |> Internals.Index.extract_paths_and_hashes in
 
@@ -21,10 +21,11 @@ let checkout (what : string) : unit =
 
   Internals.Index.write new_index;
 
-  (* remove files from old index, copy files according to new index *)
-  List.iter Sys.remove old_files;
+  (* clear working directory, create files according to new index *)
+  FileUtil.rm ~recurse:true (Sys.readdir "." |> Array.to_list |> List.filter ((<>) ".flux"));
   List.iter 
     (fun (path, hash) -> 
+      FileUtil.mkdir ~parent:true (FilePath.dirname path);
       let contents = Yojson.Basic.from_file (FilePath.concat ".flux/objects" hash) |> Yojson.Basic.Util.member "content" |> Yojson.Basic.Util.to_string in
       Out_channel.with_open_text path (fun oc -> Out_channel.output_string oc contents))
     new_files
