@@ -1,4 +1,4 @@
-let add (path : string) : unit =
+let stage (path : string) : unit =
   (* delete old entry *)
   Internals.Index.remove path;
 
