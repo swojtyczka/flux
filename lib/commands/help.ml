@@ -6,7 +6,5 @@ let help () : unit =
   "flux status - shows current status\n" ^
   "flux commit <message> - creates a commit\n" ^
   "flux log (<hash>) - shows commit log (optional: starting from <hash>)\n" ^
-  "flux staged - shows differences between staging area and HEAD\n" ^
-  "flux unstaged - shows unstaged changes\n" ^
   "flux checkout <hash/ref> - check out commit or branch\n" ^
   "flux branch (<name>) - list all branches / create a new branch\n"
