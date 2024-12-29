@@ -10,11 +10,6 @@ let extract_paths_and_hashes (json : Yojson.Basic.t) : (string * string) list =
    Yojson.Basic.Util.member "path" entry |> Yojson.Basic.Util.to_string, 
    Yojson.Basic.Util.member "hash" entry |> Yojson.Basic.Util.to_string)
 
-let staged_files () : string list =
-  match read () with
-    | `List ls -> List.map (Fun.compose Yojson.Basic.Util.to_string (Yojson.Basic.Util.member "path")) ls
-    | _ -> []
-
 let add (path : string) (hash : string ) : unit =
   let index = 
   begin 
