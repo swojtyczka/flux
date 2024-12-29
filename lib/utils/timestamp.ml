@@ -1,4 +1,4 @@
-let get () : string = 
+let get () : string =
   let today = Unix.localtime (Unix.time ()) in
   let day = today.Unix.tm_mday in
   let month = today.Unix.tm_mon + 1 in
