@@ -9,4 +9,5 @@ let help () : unit =
   "flux log (<hash>) - shows commit log (optional: starting from <hash>)\n" ^
   "flux checkout <hash/ref> - check out commit or branch\n" ^
   "flux branch (<name>) - list all branches / create a new branch\n" ^
-  "flux del <name> - deletes a branch\n"
+  "flux del <name> - deletes a branch\n" ^
+  "flux delta (<hash>) - shows changes between commit and its parent (HEAD if <hash> not specified)\n"

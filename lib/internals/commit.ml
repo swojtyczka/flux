@@ -19,6 +19,8 @@ let get_commit_timeStamp_and_message (hash : string) : string * string =
   in timeStamp, message
 
 let get_commit_parent (hash : string) : string =
+  if hash = "" || not (Sys.file_exists (Filename.concat ".flux/objects" hash)) then ""
+  else
   let commit = Yojson.Basic.from_file (Filename.concat ".flux/objects" hash) in
   Yojson.Basic.Util.to_string @@ Yojson.Basic.Util.member "parent" commit
 
