@@ -19,7 +19,9 @@ let _ : unit =
         else Flux.Commands.Commit.commit Sys.argv.(2)
     | "log" ->
         if argc < 3 then Flux.Commands.Log.log ()
-        else Flux.Commands.Log.log_from Sys.argv.(2)
+        else
+          Flux.Commands.Log.log_from
+          @@ Flux.Internals.Hash.of_string Sys.argv.(2)
     | "checkout" ->
         if argc < 3 then print_endline "Too few arguments"
         else Flux.Commands.Checkout.checkout Sys.argv.(2)
@@ -30,8 +32,8 @@ let _ : unit =
         if argc < 3 then print_endline @@ "Too few arguments"
         else Flux.Commands.Branch.branch_delete Sys.argv.(2)
     | "delta" ->
-        if argc < 3 then
+        if argc < 3 then Flux.Commands.Delta.delta_head ()
+        else
           Flux.Commands.Delta.delta
-          @@ Flux.Internals.Head.get_current_commit_hash ()
-        else Flux.Commands.Delta.delta Sys.argv.(2)
+          @@ Flux.Internals.Hash.of_string Sys.argv.(2)
     | cmd -> print_endline @@ "Unknown command '" ^ cmd ^ "'. Try flux help"

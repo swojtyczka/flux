@@ -10,7 +10,10 @@ let branch_list () : unit =
 
 let branch_create (name : string) =
   if Internals.Branch.exists name then print_endline "Branch already exists!"
-  else Internals.Branch.create name (Internals.Head.get_current_commit_hash ())
+  else
+    match Internals.Head.get_current_commit () with
+    | None -> Internals.Branch.create name Internals.Hash.empty
+    | Some hash -> Internals.Branch.create name hash
 
 let branch_delete (name : string) =
   if Internals.Branch.exists name then

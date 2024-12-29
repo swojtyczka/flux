@@ -1,18 +1,13 @@
-let read () : Yojson.Basic.t = Yojson.Basic.from_file ".flux/index"
+type t = Yojson.Basic.t
 
-let write (json : Yojson.Basic.t) : unit =
-  Yojson.Basic.to_file ".flux/index" json
+let read () : t = Yojson.Basic.from_file ".flux/index"
+let write (index : t) : unit = Yojson.Basic.to_file ".flux/index" index
 
-let extract_paths_and_hashes (json : Yojson.Basic.t) : (string * string) list =
-  Yojson.Basic.Util.to_list json
-  |> List.map (fun entry ->
-         ( Yojson.Basic.Util.member "path" entry |> Yojson.Basic.Util.to_string,
-           Yojson.Basic.Util.member "hash" entry |> Yojson.Basic.Util.to_string
-         ))
-
-let add (path : string) (hash : string) : unit =
+let add (path : string) (hash : Hash.t) : unit =
   let index = match read () with `List ls -> ls | _ -> [] in
-  let entry = `Assoc [ ("path", `String path); ("hash", `String hash) ] in
+  let entry =
+    `Assoc [ ("path", `String path); ("hash", `String (Hash.to_string hash)) ]
+  in
   write (`List (entry :: index))
 
 let remove (path : string) : unit =
@@ -23,3 +18,10 @@ let remove (path : string) : unit =
   in
   let new_index = List.filter filter index in
   write (`List new_index)
+
+let to_list (index : t) : (string * Hash.t) list =
+  Yojson.Basic.Util.to_list index
+  |> List.map (fun entry ->
+         ( Yojson.Basic.Util.member "path" entry |> Yojson.Basic.Util.to_string,
+           Yojson.Basic.Util.member "hash" entry
+           |> Yojson.Basic.Util.to_string |> Hash.of_string ))

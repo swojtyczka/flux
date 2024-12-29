@@ -1,16 +1,28 @@
-let rec log_from (hash : string) : unit =
-  if hash = "" then print_newline ()
+let rec log_from (hash : Internals.Hash.t) : unit =
+  if Internals.Hash.is_empty hash then print_newline ()
+  else if not (Internals.Object.exists hash) then
+    print_endline @@ "Object does not exist: " ^ Internals.Hash.to_string hash
   else
-    let headHash = Internals.Head.get_current_commit_hash () in
-    let curr = Internals.Commit.get_commit_timeStamp_and_message hash in
-    print_endline @@ "commit " ^ hash ^ " "
-    ^ if headHash = hash then "(HEAD)" else "";
-    print_endline @@ "Date: " ^ fst curr;
+    let head =
+      match Internals.Head.get_current_commit () with
+      | Some hash -> hash
+      | None -> Internals.Hash.of_string ""
+    in
+    let timestamp = Internals.Commit.get_timestamp hash in
+    let message = Internals.Commit.get_message hash in
+    print_endline @@ "commit "
+    ^ Internals.Hash.to_string hash
+    ^ " "
+    ^ if head = hash then "(HEAD)" else "";
+    print_endline @@ "Date: " ^ timestamp;
     print_newline ();
-    print_endline @@ snd curr;
+    print_endline @@ message;
     print_newline ();
     print_endline "-----";
-    let parent = Internals.Commit.get_commit_parent hash in
+    let parent = Internals.Commit.get_parent hash in
     log_from parent
 
-let log () : unit = log_from @@ Internals.Head.get_current_commit_hash ()
+let log () : unit =
+  match Internals.Head.get_current_commit () with
+  | None -> print_endline "Log is empty"
+  | Some hash -> log_from hash

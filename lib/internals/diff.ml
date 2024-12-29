@@ -6,14 +6,12 @@ let change_to_string (c : change) : string =
   | Deleted -> "Deleted"
   | Modified -> "Modified"
 
-let diff_indexes (older : Yojson.Basic.t) (newer : Yojson.Basic.t) :
-    (string * change) list =
-  let files_old = Index.extract_paths_and_hashes older in
-  let files_new = Index.extract_paths_and_hashes newer in
+let diff_indexes (older : Index.t) (newer : Index.t) : (string * change) list =
+  let files_old = Index.to_list older in
+  let files_new = Index.to_list newer in
   let names_new = List.map fst files_new in
   let hashes_new = List.map snd files_new in
   let common = List.filter (fun x -> List.mem x files_old) files_new in
-  (* A and B *)
   let modified =
     List.filter
       (fun x -> List.mem (fst x) names_new && not (List.mem (snd x) hashes_new))
@@ -24,17 +22,19 @@ let diff_indexes (older : Yojson.Basic.t) (newer : Yojson.Basic.t) :
     List.filter
       (fun x -> not (List.mem x common || List.mem (fst x) modified))
       files_new
+    |> List.map fst
   in
   let deleted =
     List.filter
       (fun x -> not (List.mem x common || List.mem (fst x) modified))
       files_old
+    |> List.map fst
   in
   List.concat
     [
       List.map (fun x -> (x, Modified)) modified;
-      List.map (fun x -> (x, Added)) (List.map fst added);
-      List.map (fun x -> (x, Deleted)) (List.map fst deleted);
+      List.map (fun x -> (x, Added)) added;
+      List.map (fun x -> (x, Deleted)) deleted;
     ]
 
 let workdir_files () : string list =
@@ -52,18 +52,23 @@ let workdir_files () : string list =
   in
   list_files "." ""
 
-let diff_workdir_staged () : (string * change) list =
+let diff_workdir_index () : (string * change) list =
   let workdir = workdir_files () in
-  let index = Index.extract_paths_and_hashes @@ Index.read () in
+  let index = Index.read () |> Index.to_list in
   List.filter_map
     (fun path ->
-      let contents = In_channel.with_open_bin path In_channel.input_all in
-      let _, hashed = Blob.generate contents in
+      let content = In_channel.with_open_bin path In_channel.input_all in
+      let _, hash = Hash.generate_blob content in
       match List.assoc_opt path index with
-      | None -> Some (path, Added)
-      | Some hashed2 -> if hashed = hashed2 then None else Some (path, Modified))
+      | None -> Some (path, Added) (* file is present only in newer index *)
+      | Some hash2 -> if hash = hash2 then None else Some (path, Modified))
     workdir
   @ List.filter_map
       (fun (path, _) ->
         if List.mem path workdir then None else Some (path, Deleted))
       index
+
+let print_changes (changes : (string * change) list) : unit =
+  List.iter
+    (fun x -> print_endline @@ change_to_string (snd x) ^ " " ^ fst x)
+    changes

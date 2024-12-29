@@ -1,16 +1,16 @@
-let checkout (what : string) : unit =
-  let is_branch = List.mem what (Internals.Branch.list_all ()) in
+let checkout (id : string) : unit =
+  let is_branch = List.mem id (Internals.Branch.list_all ()) in
   let hash =
-    if is_branch then Internals.Branch.get_current_commit what else what
+    if is_branch then Internals.Branch.get_current_commit id
+    else Internals.Hash.of_string id
   in
 
-  let new_index = Internals.Commit.get_commit_files hash in
-  let new_files = new_index |> Internals.Index.extract_paths_and_hashes in
+  let new_index = Internals.Commit.get_index hash in
+  let new_files = Internals.Index.to_list new_index in
 
   (* updating HEAD *)
-  if is_branch then
-    Internals.Head.update_ref (FilePath.concat "refs/heads" what)
-  else Internals.Head.update_detached_head hash;
+  if is_branch then Internals.Head.set_to_ref (FilePath.concat "refs/heads" id)
+  else Internals.Head.set_to_detached_head hash;
 
   Internals.Index.write new_index;
 
@@ -21,7 +21,7 @@ let checkout (what : string) : unit =
     (fun (path, hash) ->
       FileUtil.mkdir ~parent:true (FilePath.dirname path);
       let contents =
-        Yojson.Basic.from_file (FilePath.concat ".flux/objects" hash)
+        Yojson.Basic.from_file @@ Internals.Object.get_path hash
         |> Yojson.Basic.Util.member "content"
         |> Yojson.Basic.Util.to_string
       in
