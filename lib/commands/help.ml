@@ -8,4 +8,5 @@ let help () : unit =
   "flux commit <message> - creates a commit\n" ^
   "flux log (<hash>) - shows commit log (optional: starting from <hash>)\n" ^
   "flux checkout <hash/ref> - check out commit or branch\n" ^
-  "flux branch (<name>) - list all branches / create a new branch\n"
+  "flux branch (<name>) - list all branches / create a new branch\n" ^
+  "flux del <name> - deletes a branch\n"

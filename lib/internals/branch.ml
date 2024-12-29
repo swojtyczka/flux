@@ -13,3 +13,6 @@ let exists (name : string) : bool =
 let create (name : string) (hash : string) : unit = 
   FileUtil.touch (FilePath.concat ".flux/refs/heads" name);
   Out_channel.with_open_text (Filename.concat ".flux/refs/heads" name) (fun oc -> Out_channel.output_string oc hash)
+
+let delete (name : string) : unit = 
+  FileUtil.rm [FilePath.concat ".flux/refs/heads" name]

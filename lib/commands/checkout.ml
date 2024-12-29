@@ -8,7 +8,6 @@ let checkout (what : string) : unit =
       what
   in
 
-  (* let old_files = Internals.Index.read () |> Internals.Index.extract_paths_and_hashes |> List.map fst in *)
   let new_index = Internals.Commit.get_commit_files hash in
   let new_files = new_index |> Internals.Index.extract_paths_and_hashes in
 

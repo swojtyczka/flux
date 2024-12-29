@@ -22,9 +22,11 @@ let get_commit_parent (hash : string) : string =
   let commit = Yojson.Basic.from_file (Filename.concat ".flux/objects" hash) in
   Yojson.Basic.Util.to_string @@ Yojson.Basic.Util.member "parent" commit
 
-let get_commit_files (hash : string) : Yojson.Basic.t =
-  let commit = Yojson.Basic.from_file (Filename.concat ".flux/objects" hash) in
-  Yojson.Basic.Util.member "files" commit
-
 let get_empty_commit_files () : Yojson.Basic.t =
   `List []
+
+let get_commit_files (hash : string) : Yojson.Basic.t =
+  if hash = "" || not (Sys.file_exists (Filename.concat ".flux/objects" hash)) then get_empty_commit_files ()
+  else
+  let commit = Yojson.Basic.from_file (Filename.concat ".flux/objects" hash) in
+  Yojson.Basic.Util.member "files" commit

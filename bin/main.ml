@@ -13,5 +13,6 @@ let _ : unit =
   | "commit" -> if argc < 3 then print_endline "Too few arguments" else Flux.Commands.Commit.commit Sys.argv.(2)
   | "log" -> if argc < 3 then Flux.Commands.Log.log () else Flux.Commands.Log.log_from Sys.argv.(2)
   | "checkout" -> if argc < 3 then print_endline "Too few arguments" else Flux.Commands.Checkout.checkout Sys.argv.(2)
-  | "branch" -> if argc < 3 then Flux.Commands.Branch.branch None else Flux.Commands.Branch.branch (Some Sys.argv.(2))
+  | "branch" -> if argc < 3 then Flux.Commands.Branch.branch_list () else Flux.Commands.Branch.branch_create Sys.argv.(2)
+  | "del" -> if argc < 3 then print_endline @@ "Too few arguments" else Flux.Commands.Branch.branch_delete Sys.argv.(2)
   | cmd -> print_endline @@ "Unknown command '" ^ cmd ^ "'. Try flux help"

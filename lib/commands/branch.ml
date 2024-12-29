@@ -1,9 +1,18 @@
-let branch : string option -> unit =
-  function
-  | None -> 
+let branch_list () : unit =
     let current = match Internals.Head.get_current_branch () with None -> "" | Some name -> name in
     Internals.Branch.list_all () |> List.iter (fun branch -> print_endline @@ branch ^ (if branch = current then "*" else ""))
-  | Some name -> 
-    if Internals.Branch.exists name 
-      then print_endline "Branch already exists!" 
-      else Internals.Branch.create name (Internals.Head.get_current_commit_hash ())
+
+let branch_create (name : string) =
+  if Internals.Branch.exists name 
+    then print_endline "Branch already exists!" 
+    else Internals.Branch.create name (Internals.Head.get_current_commit_hash ())
+
+let branch_delete (name : string) =
+  if Internals.Branch.exists name 
+    then
+      match Internals.Head.get_current_branch () with
+      | Some curr -> if curr <> name 
+        then Internals.Branch.delete name
+        else print_endline "Can't delete currently checked out branch" 
+      | None -> Internals.Branch.delete name
+    else print_endline "Branch doesn't exist!" 
