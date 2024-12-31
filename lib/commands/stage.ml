@@ -6,7 +6,7 @@ let stage (path : string) : unit =
   if Sys.file_exists path then (
     (* blob generating *)
     let content = In_channel.with_open_bin path In_channel.input_all in
-    let blob, blobHash = Internals.Hash.generate_blob content in
+    let blob, blobHash = Internals.Object.generate_blob content in
     Out_channel.with_open_text (Internals.Object.get_path blobHash) (fun oc ->
         Out_channel.output_string oc blob);
 

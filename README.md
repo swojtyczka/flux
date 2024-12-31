@@ -2,14 +2,7 @@
 
 ## Todo
 
-- ~~more error handling (add strong types and try-catches)~~
-- ~~delta -> show changes between commit and its parent~~
-- ~~clean working directory when checking out~~
-- ~~branch delete~~
 - git reset
-
-### Optional
-
 - colorful diff
 - git rebase
 - git merge

@@ -58,7 +58,7 @@ let diff_workdir_index () : (string * change) list =
   List.filter_map
     (fun path ->
       let content = In_channel.with_open_bin path In_channel.input_all in
-      let _, hash = Hash.generate_blob content in
+      let _, hash = Object.generate_blob content in
       match List.assoc_opt path index with
       | None -> Some (path, Added) (* file is present only in newer index *)
       | Some hash2 -> if hash = hash2 then None else Some (path, Modified))
