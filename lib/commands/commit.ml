@@ -17,4 +17,4 @@ let commit (message : string) : unit =
   (* move HEAD/ref *)
   match Internals.Head.get () with
   | Commit hash -> Internals.Head.set_to_detached_head hash
-  | Ref ref -> Internals.Head.set_to_ref ref
+  | Ref ref -> Internals.Branch.update_ref ref commitHash
