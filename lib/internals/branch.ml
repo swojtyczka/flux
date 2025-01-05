@@ -10,6 +10,10 @@ let get_current_commit (ref : string) : Hash.t =
     In_channel.input_all
   |> Hash.of_string
 
+let get_current_commit_opt (ref : string) : Hash.t option =
+  let curr = get_current_commit ref in
+  if Hash.is_empty curr then None else Some curr
+
 let exists (name : string) : bool =
   Sys.file_exists (FilePath.concat ".flux/refs/heads" name)
 

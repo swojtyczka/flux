@@ -22,7 +22,7 @@ let rec log_from (hash : Internals.Hash.t) : unit =
     let parent = Internals.Commit.get_parent hash in
     log_from parent
 
-let log () : unit =
-  match Internals.Head.get_current_commit () with
+let log ?(from = "HEAD") () : unit =
+  match Internals.Commit.find from with
   | None -> print_endline "Log is empty"
   | Some hash -> log_from hash

@@ -19,9 +19,7 @@ let _ : unit =
         else Flux.Commands.Commit.commit Sys.argv.(2)
     | "log" ->
         if argc < 3 then Flux.Commands.Log.log ()
-        else
-          Flux.Commands.Log.log_from
-          @@ Flux.Internals.Hash.of_string Sys.argv.(2)
+        else Flux.Commands.Log.log ~from:Sys.argv.(2) ()
     | "checkout" ->
         if argc < 3 then print_endline "Too few arguments"
         else Flux.Commands.Checkout.checkout Sys.argv.(2)

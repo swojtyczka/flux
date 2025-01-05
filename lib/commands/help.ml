@@ -6,9 +6,9 @@ let help () : unit =
   ^ "flux unstage <path> - revert index to HEAD for a specific file (doesn't \
      affect working directory)\n" ^ "flux status - shows current status\n"
   ^ "flux commit <message> - creates a commit\n"
-  ^ "flux log (<hash>) - shows commit log (optional: starting from <hash>)\n"
-  ^ "flux checkout <hash/ref> - check out commit or branch\n"
+  ^ "flux log (<revision>) - shows commit log\n"
+  ^ "flux checkout <revision> - check out a revision\n"
   ^ "flux branch (<name>) - list all branches / create a new branch\n"
   ^ "flux del <name> - deletes a branch\n"
-  ^ "flux delta (<hash>) - shows changes between commit and its parent (HEAD \
-     if <hash> not specified)\n"
+  ^ "flux delta (<commit>) - shows changes between commit and its parent (HEAD \
+     if <commit> not specified)\n"
