@@ -2,13 +2,13 @@ let commit (message : string) : unit =
   (* create commit file *)
   let commit, commitHash =
     let timeStamp = Utils.Timestamp.get () in
-    let parent =
+    let parents =
       match Internals.Head.get_current_commit () with
-      | None -> Internals.Hash.empty
-      | Some hash -> hash
+      | None -> []
+      | Some hash -> [ hash ]
     in
     let index = Internals.Index.read () in
-    Internals.Object.generate_commit timeStamp parent index message
+    Internals.Object.generate_commit timeStamp parents index message
   in
   Out_channel.with_open_text
     (Filename.concat ".flux/objects" (Internals.Hash.to_string commitHash))

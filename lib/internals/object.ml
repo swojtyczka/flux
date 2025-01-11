@@ -3,7 +3,7 @@ let get_path (hash : Hash.t) : string =
 
 let exists (hash : Hash.t) : bool = Sys.file_exists @@ get_path hash
 
-let is_commit (hash : Hash.t) : bool =
+let exists_commit (hash : Hash.t) : bool =
   exists hash
   && get_path hash |> Yojson.Basic.from_file
      |> Yojson.Basic.Util.member "type"
@@ -17,14 +17,16 @@ let generate_blob (content : string) : string * Hash.t =
   let blobHash = Sha1.string blob |> Sha1.to_hex |> Hash.of_string in
   (blob, blobHash)
 
-let generate_commit (timeStamp : string) (parent : Hash.t) (index : Index.t)
-    (message : string) : string * Hash.t =
+let generate_commit (timeStamp : string) (parents : Hash.t list)
+    (index : Index.t) (message : string) : string * Hash.t =
   let commit =
     `Assoc
       [
         ("type", `String "commit");
         ("timeStamp", `String timeStamp);
-        ("parent", `String (Hash.to_string parent));
+        ( "parents",
+          `List (List.map (fun hash -> `String (Hash.to_string hash)) parents)
+        );
         ("files", index);
         ("message", `String message);
       ]

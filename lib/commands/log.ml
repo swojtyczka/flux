@@ -1,6 +1,5 @@
 let rec log_from (hash : Internals.Hash.t) : unit =
-  if Internals.Hash.is_empty hash then print_newline ()
-  else if not (Internals.Object.exists hash) then
+  if not (Internals.Object.exists hash) then
     print_endline @@ "Object does not exist: " ^ Internals.Hash.to_string hash
   else
     let head =
@@ -19,8 +18,9 @@ let rec log_from (hash : Internals.Hash.t) : unit =
     print_endline @@ message;
     print_newline ();
     print_endline "-----";
-    let parent = Internals.Commit.get_parent hash in
-    log_from parent
+    match Internals.Commit.get_parents hash with
+    | [] -> ()
+    | parent :: _ -> log_from parent
 
 let log ?(from = "HEAD") () : unit =
   match Internals.Commit.find from with

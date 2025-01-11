@@ -17,8 +17,10 @@ let get_current_commit () : Hash.t option =
   | Ref ref ->
       let path = Filename.concat ".flux" ref in
       if Sys.file_exists path then
-        Some
-          (In_channel.with_open_bin path In_channel.input_all |> Hash.of_string)
+        let hash =
+          In_channel.with_open_bin path In_channel.input_all |> Hash.of_string
+        in
+        if Hash.is_empty hash then None else Some hash
       else None
 
 let get_current_branch () : string option =

@@ -2,6 +2,7 @@
 
 ## Todo
 
+- make log and delta use commit finding instead of just hashes
 - git reset
 - git rebase
 - git merge
