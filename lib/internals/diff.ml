@@ -1,10 +1,10 @@
 type change = Added | Deleted | Modified
 
-let change_to_string (c : change) : string =
+let change_to_string (file : string) (c : change) : string =
   match c with
-  | Added -> "Added"
-  | Deleted -> "Deleted"
-  | Modified -> "Modified"
+  | Added -> "\027[1;32m+ \027[0;32m" ^ file ^ "\027[0m"
+  | Deleted -> "\027[1;31m- \027[0;31m" ^ file ^ "\027[0m"
+  | Modified -> "\027[1;33mM \027[0;33m" ^ file ^ "\027[0m"
 
 let diff_indexes (older : Index.t) (newer : Index.t) : (string * change) list =
   let files_old = Index.to_list older in
@@ -69,6 +69,4 @@ let diff_workdir_index () : (string * change) list =
       index
 
 let print_changes (changes : (string * change) list) : unit =
-  List.iter
-    (fun x -> print_endline @@ change_to_string (snd x) ^ " " ^ fst x)
-    changes
+  List.iter (fun x -> change_to_string (fst x) (snd x) |> print_endline) changes

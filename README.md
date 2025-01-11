@@ -3,7 +3,6 @@
 ## Todo
 
 - git reset
-- colorful diff
 - git rebase
 - git merge
 - git cherry-pick
