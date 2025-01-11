@@ -10,5 +10,4 @@ let help () : unit =
   ^ "flux checkout <revision> - check out a revision\n"
   ^ "flux branch (<name>) - list all branches / create a new branch\n"
   ^ "flux del <name> - deletes a branch\n"
-  ^ "flux delta (<commit>) - shows changes between commit and its parent (HEAD \
-     if <commit> not specified)\n"
+  ^ "flux delta (<revision>) - shows changes between commit and its parent\n"

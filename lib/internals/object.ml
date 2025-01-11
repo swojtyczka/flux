@@ -7,7 +7,7 @@ let exists_commit (hash : Hash.t) : bool =
   exists hash
   && get_path hash |> Yojson.Basic.from_file
      |> Yojson.Basic.Util.member "type"
-     |> Yojson.Basic.to_string = "commit"
+     |> Yojson.Basic.Util.to_string = "commit"
 
 let generate_blob (content : string) : string * Hash.t =
   let blob =
