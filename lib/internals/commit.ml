@@ -14,10 +14,10 @@ let get_parents (hash : Hash.t) : Hash.t list =
     |> Yojson.Basic.Util.to_list
     |> List.map (Fun.compose Hash.of_string Yojson.Basic.Util.to_string)
 
-let get_empty_index () : Index.t = `List []
+let empty_index : Index.t = `List []
 
 let get_index (hash : Hash.t) : Index.t =
-  if Hash.is_empty hash || not (Object.exists hash) then get_empty_index ()
+  if Hash.is_empty hash || not (Object.exists hash) then empty_index
   else
     let commit = Yojson.Basic.from_file @@ Object.get_path hash in
     Yojson.Basic.Util.member "files" commit

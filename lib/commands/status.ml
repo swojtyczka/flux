@@ -1,7 +1,7 @@
 let staged () : unit =
   let head_files =
     match Internals.Head.get_current_commit () with
-    | None -> Internals.Commit.get_empty_index ()
+    | None -> Internals.Commit.empty_index
     | Some hash -> Internals.Commit.get_index hash
   in
   let changes =
