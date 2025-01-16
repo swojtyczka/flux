@@ -1,6 +1,10 @@
 let get_path (hash : Hash.t) : string =
   Filename.concat ".flux/objects" @@ Hash.to_string hash
 
+let write (hash : Hash.t) (content : string) =
+  Out_channel.with_open_text (get_path hash) (fun oc ->
+      Out_channel.output_string oc content)
+
 let exists (hash : Hash.t) : bool = Sys.file_exists @@ get_path hash
 
 let exists_commit (hash : Hash.t) : bool =
@@ -34,3 +38,8 @@ let generate_commit (timeStamp : string) (parents : Hash.t list)
   in
   let commitHash = Sha1.string commit |> Sha1.to_hex |> Hash.of_string in
   (commit, commitHash)
+
+let read_blob_content (hash : Hash.t) : string =
+  Yojson.Basic.from_file (get_path hash)
+  |> Yojson.Basic.Util.member "content"
+  |> Yojson.Basic.Util.to_string

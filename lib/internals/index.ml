@@ -25,3 +25,11 @@ let to_list (index : t) : (string * Hash.t) list =
          ( Yojson.Basic.Util.member "path" entry |> Yojson.Basic.Util.to_string,
            Yojson.Basic.Util.member "hash" entry
            |> Yojson.Basic.Util.to_string |> Hash.of_string ))
+
+let of_list (ls : (string * Hash.t) list) : t =
+  `List
+    (List.map
+       (fun (path, hash) ->
+         `Assoc
+           [ ("path", `String path); ("hash", `String (Hash.to_string hash)) ])
+       ls)
