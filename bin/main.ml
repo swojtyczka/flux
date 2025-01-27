@@ -32,4 +32,7 @@ let _ : unit =
     | "delta" ->
         if argc < 3 then Flux.Commands.Delta.delta "HEAD"
         else Flux.Commands.Delta.delta Sys.argv.(2)
+    | "merge" ->
+        if argc < 3 then print_endline "Too few arguments"
+        else Flux.Commands.Merge.merge Sys.argv.(2)
     | cmd -> print_endline @@ "Unknown command '" ^ cmd ^ "'. Try flux help"

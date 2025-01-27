@@ -1,4 +1,5 @@
 type change = Added | Deleted | Modified
+type t = (string * change) list
 
 let change_to_string (file : string) (c : change) : string =
   match c with
@@ -6,7 +7,7 @@ let change_to_string (file : string) (c : change) : string =
   | Deleted -> "\027[1;31m- \027[0;31m" ^ file ^ "\027[0m"
   | Modified -> "\027[1;33mM \027[0;33m" ^ file ^ "\027[0m"
 
-let diff_indexes (older : Index.t) (newer : Index.t) : (string * change) list =
+let diff_indexes (older : Index.t) (newer : Index.t) : t =
   let files_old = Index.to_list older in
   let files_new = Index.to_list newer in
   let names_new = List.map fst files_new in
@@ -52,7 +53,7 @@ let workdir_files () : string list =
   in
   list_files "." ""
 
-let diff_workdir_index () : (string * change) list =
+let diff_workdir_index () : t =
   let workdir = workdir_files () in
   let index = Index.read () |> Index.to_list in
   List.filter_map
@@ -68,5 +69,5 @@ let diff_workdir_index () : (string * change) list =
         if List.mem path workdir then None else Some (path, Deleted))
       index
 
-let print_changes (changes : (string * change) list) : unit =
+let print_changes (changes : t) : unit =
   List.iter (fun x -> change_to_string (fst x) (snd x) |> print_endline) changes

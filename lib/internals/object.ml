@@ -22,7 +22,7 @@ let generate_blob (content : string) : string * Hash.t =
   (blob, blobHash)
 
 let generate_commit (timeStamp : string) (parents : Hash.t list)
-    (index : Index.t) (message : string) : string * Hash.t =
+    (index : Yojson.Basic.t) (message : string) : string * Hash.t =
   let commit =
     `Assoc
       [
