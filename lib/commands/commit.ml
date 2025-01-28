@@ -19,7 +19,7 @@ let commit (message : string) : unit =
     (Filename.concat ".flux/objects" (Internals.Hash.to_string commitHash))
     (fun oc -> Out_channel.output_string oc commit);
 
-  (* move HEAD/ref *)
+  (* move HEAD/branch *)
   match Internals.Head.get () with
   | Commit hash -> Internals.Head.set_to_detached_head hash
-  | Ref ref -> Internals.Branch.update_ref ref commitHash
+  | Branch branch -> Internals.Branch.update_branch branch commitHash

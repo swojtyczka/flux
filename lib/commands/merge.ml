@@ -1,7 +1,7 @@
 let merge (source : string) : unit =
   match Internals.Head.get () with
   | Commit _ -> print_endline "Cannot merge into non-branch"
-  | Ref target -> (
+  | Branch target -> (
       match Internals.Commit.find source with
       | None -> print_endline @@ "'" ^ source ^ "' does not exist"
       | Some hash -> (

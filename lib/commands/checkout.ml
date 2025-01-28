@@ -10,7 +10,7 @@ let checkout (id : string) : unit =
 
         (* updating HEAD *)
         if Internals.Branch.exists id then
-          Internals.Head.set_to_ref (FilePath.concat "refs/heads" id)
+          Internals.Head.set_to_branch id
         else Internals.Head.set_to_detached_head hash;
 
         Internals.Index.write new_index;

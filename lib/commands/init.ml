@@ -13,7 +13,7 @@ let init () : unit =
       Yojson.to_file ".flux/index" (`List []);
       Yojson.to_file ".flux/HEAD"
         (`Assoc
-           [ ("type", `String "ref"); ("val", `String "refs/heads/master") ]);
+           [ ("type", `String "branch"); ("val", `String "master") ]);
 
       print_endline "Initialized empty repository"
     with _ ->
