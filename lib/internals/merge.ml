@@ -77,11 +77,11 @@ let three_way_merge (current_index : Index.t) (incoming_index : Index.t)
       | Some change_ours, Some change_theirs ->
           let file_ours =
             try Object.read_blob_content (List.assoc path current_files)
-            with _ -> "*file is deleted*"
+            with _ -> ""
           in
           let file_theirs =
             try Object.read_blob_content (List.assoc path incoming_files)
-            with _ -> "*file is deleted*"
+            with _ -> ""
           in
           let blob, blobHash =
             Object.generate_blob
@@ -93,3 +93,16 @@ let three_way_merge (current_index : Index.t) (incoming_index : Index.t)
     all_changes;
   ( files |> Hashtbl.to_seq |> List.of_seq |> Index.of_list,
     conflicted_files |> Hashtbl.to_seq |> List.of_seq )
+
+let is_in_progress () : bool = Sys.file_exists ".flux/MERGE_PARENTS"
+
+let write_merge_parents (parents : Hash.t list) : unit =
+  Yojson.Basic.to_file ".flux/MERGE_PARENTS"
+    (`List (List.map (fun hash -> `String (Hash.to_string hash)) parents))
+
+let get_merge_parents () : Hash.t list =
+  Yojson.Basic.from_file ".flux/MERGE_PARENTS"
+  |> Yojson.Basic.Util.to_list
+  |> List.map (Fun.compose Hash.of_string Yojson.Basic.Util.to_string)
+
+let end_merge () : unit = Sys.remove ".flux/MERGE_PARENTS"

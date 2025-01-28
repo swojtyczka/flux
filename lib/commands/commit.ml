@@ -3,9 +3,14 @@ let commit (message : string) : unit =
   let commit, commitHash =
     let timeStamp = Utils.Timestamp.get () in
     let parents =
-      match Internals.Head.get_current_commit () with
-      | None -> []
-      | Some hash -> [ hash ]
+      if Internals.Merge.is_in_progress () then (
+        let p = Internals.Merge.get_merge_parents () in
+        Internals.Merge.end_merge ();
+        p)
+      else
+        match Internals.Head.get_current_commit () with
+        | None -> []
+        | Some hash -> [ hash ]
     in
     let index = Internals.Index.read () in
     Internals.Object.generate_commit timeStamp parents index message

@@ -26,7 +26,13 @@ let head () : unit =
           print_endline @@ "HEAD detached at " ^ Internals.Hash.to_string hash
       | None -> ())
 
+let merging () : unit =
+  if Internals.Merge.is_in_progress () then
+    print_endline
+      "Merge is in progress. Finish resolving conflicts and commit your changes"
+
 let status () : unit =
+  merging ();
   head ();
   staged ();
   unstaged ()
