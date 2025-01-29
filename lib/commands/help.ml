@@ -13,3 +13,4 @@ let help () : unit =
   ^ "flux delta (<revision>) - shows changes between commit and its parent\n"
   ^ "flux merge <revision> - merges into HEAD\n"
   ^ "flux graph (<revision>...) - shows commit graph\n"
+  ^ "flux cherry-pick <revision> - cherry-pick a commit onto HEAD\n"

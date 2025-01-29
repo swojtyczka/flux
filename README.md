@@ -2,10 +2,11 @@
 
 ## Todo
 
-- git cherry-pick
+- .gitconfig
+- .gitignore
+- ~~git cherry-pick~~
 - git reset
 - git revert
 - git rebase
 - git bisect
-- remotes (?)
 - add docs...

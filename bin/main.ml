@@ -40,4 +40,7 @@ let _ : unit =
         else
           Flux.Commands.Graph.graph
             (Sys.argv |> Array.to_seq |> Seq.drop 2 |> List.of_seq)
+    | "cherry-pick" ->
+        if argc < 3 then print_endline "Too few arguments"
+        else Flux.Commands.Cherry_pick.cherry_pick Sys.argv.(2)
     | cmd -> print_endline @@ "Unknown command '" ^ cmd ^ "'. Try flux help"
