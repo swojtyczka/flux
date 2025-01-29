@@ -20,6 +20,9 @@ let _ : unit =
     | "log" ->
         if argc < 3 then Flux.Commands.Log.log "HEAD"
         else Flux.Commands.Log.log Sys.argv.(2)
+    | "ll" ->
+        if argc < 3 then Flux.Commands.Log.ll "HEAD"
+        else Flux.Commands.Log.ll Sys.argv.(2)
     | "checkout" ->
         if argc < 3 then print_endline "Too few arguments"
         else Flux.Commands.Checkout.checkout Sys.argv.(2)

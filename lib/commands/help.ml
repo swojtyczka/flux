@@ -7,6 +7,7 @@ let help () : unit =
      affect working directory)\n" ^ "flux status - shows current status\n"
   ^ "flux commit <message> - creates a commit\n"
   ^ "flux log (<revision>) - shows commit log\n"
+  ^ "flux ll (<revision>) - shows commit log (compact)\n"
   ^ "flux checkout <revision> - check out a revision\n"
   ^ "flux branch (<name>) - list all branches / create a new branch\n"
   ^ "flux del <name> - deletes a branch\n"
