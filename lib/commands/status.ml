@@ -12,7 +12,7 @@ let staged () : unit =
   Internals.Diff.print_changes changes
 
 let unstaged () : unit =
-  let changes = Internals.Diff.diff_workdir_index () in
+  let changes = Internals.Diff.diff_workdir_index (Internals.Index.read ()) in
   if List.is_empty changes then print_endline "Working tree clean"
   else print_endline "Changes not staged for commit:";
   Internals.Diff.print_changes changes

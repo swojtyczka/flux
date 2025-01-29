@@ -53,21 +53,21 @@ let workdir_files () : string list =
   in
   list_files "." ""
 
-let diff_workdir_index () : t =
+let diff_workdir_index (index : Index.t) : t =
   let workdir = workdir_files () in
-  let index = Index.read () |> Index.to_list in
+  let index_files = Index.to_list index in
   List.filter_map
     (fun path ->
       let content = In_channel.with_open_bin path In_channel.input_all in
       let _, hash = Object.generate_blob content in
-      match List.assoc_opt path index with
+      match List.assoc_opt path index_files with
       | None -> Some (path, Added) (* file is present only in newer index *)
       | Some hash2 -> if hash = hash2 then None else Some (path, Modified))
     workdir
   @ List.filter_map
       (fun (path, _) ->
         if List.mem path workdir then None else Some (path, Deleted))
-      index
+      index_files
 
 let print_changes (changes : t) : unit =
   List.iter (fun x -> change_to_string (fst x) (snd x) |> print_endline) changes
