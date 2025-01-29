@@ -1,6 +1,6 @@
 let update_branch (branch : string) (hash : Hash.t) : unit =
-  Out_channel.with_open_text (Filename.concat ".flux/refs/heads" branch) (fun oc ->
-      Out_channel.output_string oc @@ Hash.to_string hash)
+  Out_channel.with_open_text (Filename.concat ".flux/refs/heads" branch)
+    (fun oc -> Out_channel.output_string oc @@ Hash.to_string hash)
 
 let list_all () : string list = Sys.readdir ".flux/refs/heads" |> Array.to_list
 

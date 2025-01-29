@@ -12,3 +12,4 @@ let help () : unit =
   ^ "flux del <name> - deletes a branch\n"
   ^ "flux delta (<revision>) - shows changes between commit and its parent\n"
   ^ "flux merge <revision> - merges into HEAD\n"
+  ^ "flux graph (<revision>...) - shows commit graph\n"

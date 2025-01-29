@@ -35,4 +35,9 @@ let _ : unit =
     | "merge" ->
         if argc < 3 then print_endline "Too few arguments"
         else Flux.Commands.Merge.merge Sys.argv.(2)
+    | "graph" ->
+        if argc < 3 then Flux.Commands.Graph.graph [ "HEAD" ]
+        else
+          Flux.Commands.Graph.graph
+            (Sys.argv |> Array.to_seq |> Seq.drop 2 |> List.of_seq)
     | cmd -> print_endline @@ "Unknown command '" ^ cmd ^ "'. Try flux help"

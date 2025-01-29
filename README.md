@@ -2,11 +2,10 @@
 
 ## Todo
 
-- merge branch name withour refs heads + make more head types
+- git cherry-pick
 - git reset
 - git revert
 - git rebase
-- ~~git merge~~
-- git cherry-pick
 - git bisect
 - remotes (?)
+- add docs...

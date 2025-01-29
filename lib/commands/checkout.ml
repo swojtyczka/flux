@@ -9,8 +9,7 @@ let checkout (id : string) : unit =
         let new_index = Internals.Commit.get_index hash in
 
         (* updating HEAD *)
-        if Internals.Branch.exists id then
-          Internals.Head.set_to_branch id
+        if Internals.Branch.exists id then Internals.Head.set_to_branch id
         else Internals.Head.set_to_detached_head hash;
 
         Internals.Index.write new_index;

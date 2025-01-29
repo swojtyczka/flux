@@ -1,6 +1,7 @@
 type conflict = string * (Diff.change * Diff.change)
 type conflicts = conflict list
 
+val ancestors : Hash.t -> Hash.t list
 val find_base : Hash.t -> Hash.t -> Hash.t
 
 val three_way_merge :

@@ -17,7 +17,9 @@ let get_current_commit () : Hash.t option =
   | Branch branch -> Branch.get_current_commit_opt branch
 
 let get_current_branch () : string option =
-  match get () with Commit _ -> None | Branch branch -> Some (FilePath.basename branch)
+  match get () with
+  | Commit _ -> None
+  | Branch branch -> Some (FilePath.basename branch)
 
 let set_to_detached_head (hash : Hash.t) : unit =
   Yojson.to_file ".flux/HEAD"
