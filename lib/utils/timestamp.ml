@@ -6,4 +6,4 @@ let get () : string =
   let hour = today.Unix.tm_hour in
   let minute = today.Unix.tm_min in
   let second = today.Unix.tm_sec in
-  Printf.sprintf "%d.%d.%d %02d:%02d:%02d" day month year hour minute second
+  Printf.sprintf "%02d.%02d.%d %02d:%02d:%02d" day month year hour minute second

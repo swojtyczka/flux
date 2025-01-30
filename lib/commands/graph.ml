@@ -9,7 +9,7 @@ let graph (ids : string list) : unit =
         | Some hash -> Some hash)
       ids
   in
-  let all_commits = Utils.Graph.find_all_ancestors hashes in
+  let all_commits = Internals.Graph.find_all_ancestors hashes in
   let branches_to_be_shown =
     Internals.Branch.list_all ()
     |> List.filter (fun branch ->
@@ -58,7 +58,7 @@ let graph (ids : string list) : unit =
       |> String.concat "\n"
     in
     let edges =
-      Utils.Graph.get_edges hashes
+      Internals.Graph.get_edges hashes
       |> List.map (fun (commit, parent) ->
              "\"" ^ commit ^ "\"->\"" ^ parent ^ "\";")
       |> String.concat "\n"

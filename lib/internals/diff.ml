@@ -2,10 +2,11 @@ type change = Added | Deleted | Modified
 type t = (string * change) list
 
 let change_to_string (file : string) (c : change) : string =
+  let d = Utils.Text.decorate in
   match c with
-  | Added -> "\027[1;32m+ \027[0;32m" ^ file ^ "\027[0m"
-  | Deleted -> "\027[1;31m- \027[0;31m" ^ file ^ "\027[0m"
-  | Modified -> "\027[1;33mM \027[0;33m" ^ file ^ "\027[0m"
+  | Added -> d "+ " ["bold";"green"] ^ d file ["green"]
+  | Deleted -> d "- " ["bold";"red"] ^ d file ["red"]
+  | Modified -> d "M " ["bold";"yellow"] ^ d file ["yellow"]
 
 let diff_indexes (older : Index.t) (newer : Index.t) : t =
   let files_old = Index.to_list older in
