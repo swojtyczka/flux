@@ -83,13 +83,17 @@ let three_way_merge (current_index : Index.t) (incoming_index : Index.t)
             try Object.read_blob_content (List.assoc path incoming_files)
             with _ -> ""
           in
-          let blob, blobHash =
-            Object.generate_blob
-              (mark_conflict file_ours file_theirs current_name incoming_name)
-          in
-          Object.write blobHash blob;
-          Hashtbl.replace files path blobHash;
-          Hashtbl.replace conflicted_files path (change_ours, change_theirs))
+          if file_ours = file_theirs then
+            let hash = List.assoc path current_files in
+            Hashtbl.replace files path hash
+          else
+            let blob, blobHash =
+              Object.generate_blob
+                (mark_conflict file_ours file_theirs current_name incoming_name)
+            in
+            Object.write blobHash blob;
+            Hashtbl.replace files path blobHash;
+            Hashtbl.replace conflicted_files path (change_ours, change_theirs))
     all_changes;
   ( files |> Hashtbl.to_seq |> List.of_seq |> Index.of_list,
     conflicted_files |> Hashtbl.to_seq |> List.of_seq )
