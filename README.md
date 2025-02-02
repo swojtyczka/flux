@@ -3,4 +3,3 @@
 ## Todo
 
 - .gitconfig - author
-- git revert

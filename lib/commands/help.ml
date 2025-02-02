@@ -17,3 +17,4 @@ let help () : unit =
   ^ "flux cherry-pick <revision> - cherry-pick a commit onto HEAD\n"
   ^ "flux reset [soft|mixed|hard] <revision> - reset current branch to \
      specific commit (mixed is default)\n"
+  ^ "flux revert <revision> - reverts a commit\n"

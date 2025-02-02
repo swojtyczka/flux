@@ -50,4 +50,7 @@ let _ : unit =
         if argc < 3 then print_endline "Too few arguments"
         else if argc < 4 then Flux.Commands.Reset.reset Sys.argv.(2) "mixed"
         else Flux.Commands.Reset.reset Sys.argv.(3) Sys.argv.(2)
+    | "revert" ->
+        if argc < 3 then print_endline "Too few arguments"
+        else Flux.Commands.Revert.revert Sys.argv.(2)
     | cmd -> print_endline @@ "Unknown command '" ^ cmd ^ "'. Try flux help"
