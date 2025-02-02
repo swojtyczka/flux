@@ -41,9 +41,11 @@ let log (id : string) : unit =
       let rec log_from (hash : Internals.Hash.t) : unit =
         let timestamp = Internals.Commit.get_timestamp hash in
         let message = Internals.Commit.get_message hash in
+        let author = Internals.Commit.get_author hash in
         print_endline
         @@ d ("commit " ^ Internals.Hash.to_string hash) [ "yellow" ]
         ^ " " ^ head_branch_info hash;
+        print_endline @@ "Author: " ^ author;
         print_endline @@ "Date: " ^ timestamp;
         print_newline ();
         print_endline @@ message;

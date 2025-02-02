@@ -14,6 +14,10 @@ let get_parents (hash : Hash.t) : Hash.t list =
     |> Yojson.Basic.Util.to_list
     |> List.map (Fun.compose Hash.of_string Yojson.Basic.Util.to_string)
 
+let get_author (hash : Hash.t) : string =
+  let commit = Yojson.Basic.from_file @@ Object.get_path hash in
+  Yojson.Basic.Util.member "author" commit |> Yojson.Basic.Util.to_string
+
 let empty_index : Index.t = `List []
 
 let get_index (hash : Hash.t) : Index.t =

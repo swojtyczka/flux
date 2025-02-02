@@ -36,7 +36,8 @@ let graph (ids : string list) : unit =
       |> List.map Internals.Hash.to_string
       |> List.map (fun hash ->
              let message =
-               String.escaped @@ Internals.Commit.get_message (Internals.Hash.of_string hash)
+               String.escaped
+               @@ Internals.Commit.get_message (Internals.Hash.of_string hash)
              in
              let label =
                if String.length message > 20 then
