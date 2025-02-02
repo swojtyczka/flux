@@ -35,6 +35,10 @@ let _ : unit =
     | "delta" ->
         if argc < 3 then Flux.Commands.Delta.delta "HEAD"
         else Flux.Commands.Delta.delta Sys.argv.(2)
+    | "diff" ->
+        if argc < 3 then print_endline @@ "Too few arguments"
+        else if argc < 4 then Flux.Commands.Diff.diff Sys.argv.(2) "HEAD"
+        else Flux.Commands.Diff.diff Sys.argv.(2) Sys.argv.(3)
     | "merge" ->
         if argc < 3 then print_endline "Too few arguments"
         else Flux.Commands.Merge.merge Sys.argv.(2)
