@@ -19,7 +19,7 @@ let merge (source : string) : unit =
                   base_index target source
               in
               Internals.Index.write merged_index;
-              Internals.Index.sync_working_dir ();
+              Internals.Index.write_working_dir merged_index;
 
               (* create MERGE_PARENTS file that contains hashes of parents - if this file exists, a merge is in progress *)
               Internals.Merge.write_merge_parents [ head_hash; hash ];

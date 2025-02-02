@@ -34,7 +34,7 @@ let of_list (ls : (string * Hash.t) list) : t =
            [ ("path", `String path); ("hash", `String (Hash.to_string hash)) ])
        ls)
 
-let sync_working_dir () : unit =
+let write_working_dir (index : t) : unit =
   (* clear working directory, create files according to new index *)
   FileUtil.rm ~recurse:true
     (Sys.readdir "." |> Array.to_list |> List.filter (( <> ) ".flux"));
@@ -48,4 +48,4 @@ let sync_working_dir () : unit =
       in
       Out_channel.with_open_text path (fun oc ->
           Out_channel.output_string oc contents))
-    (read () |> to_list)
+    (index |> to_list)

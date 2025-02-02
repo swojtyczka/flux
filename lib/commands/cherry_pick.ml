@@ -28,7 +28,7 @@ let cherry_pick (source : string) : unit =
                 base_index target source
             in
             Internals.Index.write merged_index;
-            Internals.Index.sync_working_dir ();
+            Internals.Index.write_working_dir merged_index;
 
             if not @@ List.is_empty conflicted_files then
               let change_to_string (change : Internals.Diff.change) : string =

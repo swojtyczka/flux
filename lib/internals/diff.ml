@@ -4,9 +4,9 @@ type t = (string * change) list
 let change_to_string (file : string) (c : change) : string =
   let d = Utils.Text.decorate in
   match c with
-  | Added -> d "+ " ["bold";"green"] ^ d file ["green"]
-  | Deleted -> d "- " ["bold";"red"] ^ d file ["red"]
-  | Modified -> d "M " ["bold";"yellow"] ^ d file ["yellow"]
+  | Added -> d "+ " [ "bold"; "green" ] ^ d file [ "green" ]
+  | Deleted -> d "- " [ "bold"; "red" ] ^ d file [ "red" ]
+  | Modified -> d "M " [ "bold"; "yellow" ] ^ d file [ "yellow" ]
 
 let diff_indexes (older : Index.t) (newer : Index.t) : t =
   let files_old = Index.to_list older in

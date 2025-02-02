@@ -6,4 +6,4 @@ val add : string -> Hash.t -> unit
 val remove : string -> unit
 val to_list : t -> (string * Hash.t) list
 val of_list : (string * Hash.t) list -> t
-val sync_working_dir : unit -> unit
+val write_working_dir : t -> unit

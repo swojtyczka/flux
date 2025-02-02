@@ -46,4 +46,8 @@ let _ : unit =
     | "cherry-pick" ->
         if argc < 3 then print_endline "Too few arguments"
         else Flux.Commands.Cherry_pick.cherry_pick Sys.argv.(2)
+    | "reset" ->
+        if argc < 3 then print_endline "Too few arguments"
+        else if argc < 4 then Flux.Commands.Reset.reset Sys.argv.(2) "mixed"
+        else Flux.Commands.Reset.reset Sys.argv.(3) Sys.argv.(2)
     | cmd -> print_endline @@ "Unknown command '" ^ cmd ^ "'. Try flux help"

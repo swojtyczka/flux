@@ -8,8 +8,11 @@ let checkout (id : string) : unit =
       | None -> Internals.Commit.empty_index
       | Some hash -> Internals.Commit.get_index hash
     in
-    if List.length @@ Internals.Diff.diff_indexes head_index (Internals.Index.read ()) > 0 then
-      print_endline "You have uncommitted changes. Can't checkout"
+    if
+      List.length
+      @@ Internals.Diff.diff_indexes head_index (Internals.Index.read ())
+      > 0
+    then print_endline "You have uncommitted changes. Can't checkout"
     else
       match Internals.Commit.find id with
       | None -> print_endline @@ "'" ^ id ^ "' does not exist"
@@ -21,4 +24,4 @@ let checkout (id : string) : unit =
           else Internals.Head.set_to_detached_head hash;
 
           Internals.Index.write new_index;
-          Internals.Index.sync_working_dir ()
+          Internals.Index.write_working_dir new_index

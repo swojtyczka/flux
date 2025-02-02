@@ -2,9 +2,5 @@
 
 ## Todo
 
-- add more colors?
 - .gitconfig - author
-- git reset
 - git revert
-- git rebase
-- add docs...
